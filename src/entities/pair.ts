@@ -1,25 +1,25 @@
-import { Price } from './fractions/price'
-import { TokenAmount } from './fractions/tokenAmount'
+import {Price} from './fractions/price'
+import {TokenAmount} from './fractions/tokenAmount'
 import invariant from 'tiny-invariant'
 import JSBI from 'jsbi'
-import { pack, keccak256 } from '@ethersproject/solidity'
-import { getCreate2Address } from '@ethersproject/address'
+import {keccak256, pack} from '@ethersproject/solidity'
+import {getCreate2Address} from '@ethersproject/address'
 
 import {
+  _1000,
+  _997,
   BigintIsh,
-  FACTORY_ADDRESS,
+  ChainId,
+  FACTORY_CONTRACTS,
+  FIVE,
   INIT_CODE_HASH,
   MINIMUM_LIQUIDITY,
-  ZERO,
   ONE,
-  FIVE,
-  _997,
-  _1000,
-  ChainId
+  ZERO
 } from '../constants'
-import { sqrt, parseBigintIsh } from '../utils'
-import { InsufficientReservesError, InsufficientInputAmountError } from '../errors'
-import { Token } from './token'
+import {parseBigintIsh, sqrt} from '../utils'
+import {InsufficientInputAmountError, InsufficientReservesError} from '../errors'
+import {Token} from './token'
 
 let PAIR_ADDRESS_CACHE: { [token0Address: string]: { [token1Address: string]: string } } = {}
 
@@ -27,7 +27,7 @@ export class Pair {
   public readonly liquidityToken: Token
   private readonly tokenAmounts: [TokenAmount, TokenAmount]
 
-  public static getAddress(tokenA: Token, tokenB: Token): string {
+  public static getAddress(tokenA: Token, tokenB: Token, chainId: ChainId): string {
     const tokens = tokenA.sortsBefore(tokenB) ? [tokenA, tokenB] : [tokenB, tokenA] // does safety checks
 
     if (PAIR_ADDRESS_CACHE?.[tokens[0].address]?.[tokens[1].address] === undefined) {
@@ -36,7 +36,7 @@ export class Pair {
         [tokens[0].address]: {
           ...PAIR_ADDRESS_CACHE?.[tokens[0].address],
           [tokens[1].address]: getCreate2Address(
-            FACTORY_ADDRESS,
+            FACTORY_CONTRACTS[chainId],
             keccak256(['bytes'], [pack(['address', 'address'], [tokens[0].address, tokens[1].address])]),
             INIT_CODE_HASH
           )
@@ -53,7 +53,7 @@ export class Pair {
       : [tokenAmountB, tokenAmountA]
     this.liquidityToken = new Token(
       tokenAmounts[0].token.chainId,
-      Pair.getAddress(tokenAmounts[0].token, tokenAmounts[1].token),
+      Pair.getAddress(tokenAmounts[0].token, tokenAmounts[1].token, ChainId.MAINNET),
       18,
       'UPT',
       'UnicSwap LP Token'
