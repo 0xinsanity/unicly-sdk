@@ -1,6 +1,6 @@
 import { Contract } from '@ethersproject/contracts'
 import { getNetwork } from '@ethersproject/networks'
-import { getDefaultProvider } from '@ethersproject/providers'
+import {BaseProvider, getDefaultProvider} from '@ethersproject/providers'
 import { TokenAmount } from './entities/fractions/tokenAmount'
 import { Pair } from './entities/pair'
 import IUnicSwapV2Pair from '@unicly/unicswap/build/IUnicSwapV2Pair.json'
@@ -65,7 +65,7 @@ export abstract class Fetcher {
     tokenA: Token,
     tokenB: Token,
     chainId: ChainId,
-    provider = getDefaultProvider(getNetwork(tokenA.chainId))
+    provider: BaseProvider = getDefaultProvider(getNetwork(tokenA.chainId))
   ): Promise<Pair> {
     invariant(tokenA.chainId === tokenB.chainId, 'CHAIN_ID')
     const address = Pair.getAddress(tokenA, tokenB, chainId)
