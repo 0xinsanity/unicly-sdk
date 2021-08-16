@@ -26,7 +26,7 @@ export enum Rounding {
 }
 
 export const FACTORY_ADDRESS = '0xbAcC776b231c571a7e6ab7Bc2C8a099e07153377'
-export const FACTORY_ADDRESS_MUMBAI = '0xcc212f44e41798e2c9ae21bd51253e28d997beba'
+export const FACTORY_ADDRESS_MUMBAI = '0x719c3aBF7c2435Be34eD479b98db85342d107755'
 
 
 export const FACTORY_CONTRACTS = {
