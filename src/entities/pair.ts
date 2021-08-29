@@ -12,7 +12,7 @@ import {
   ChainId,
   FACTORY_CONTRACTS,
   FIVE,
-  INIT_CODE_HASH,
+  CODE_HASH,
   MINIMUM_LIQUIDITY,
   ONE,
   ZERO
@@ -38,7 +38,7 @@ export class Pair {
           [tokens[1].address]: getCreate2Address(
             FACTORY_CONTRACTS[chainId],
             keccak256(['bytes'], [pack(['address', 'address'], [tokens[0].address, tokens[1].address])]),
-            INIT_CODE_HASH
+            CODE_HASH[chainId]
           )
         }
       }

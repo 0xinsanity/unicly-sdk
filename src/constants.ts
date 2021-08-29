@@ -41,8 +41,18 @@ export const FACTORY_CONTRACTS = {
 
 
 
-export const INIT_CODE_HASH = '0x5648dac156e6a11a3e5d8490b7ea082913b6a97a1cd9a2b746dbedb1d922f6a8'
+export const INIT_CODE_HASH_ = '0x5648dac156e6a11a3e5d8490b7ea082913b6a97a1cd9a2b746dbedb1d922f6a8'
+export const INIT_CODE_HASH_UNISWAP ='0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f'
 
+export const CODE_HASH = {
+  [ChainId.MAINNET]: INIT_CODE_HASH_,
+  [ChainId.ROPSTEN]: INIT_CODE_HASH_,
+  [ChainId.RINKEBY]: INIT_CODE_HASH_,
+  [ChainId.GÖRLI]: INIT_CODE_HASH_,
+  [ChainId.KOVAN]: INIT_CODE_HASH_,
+  [ChainId.MATIC]: INIT_CODE_HASH_UNISWAP,
+  [ChainId.MUMBAI]: INIT_CODE_HASH_UNISWAP,
+}
 export const MINIMUM_LIQUIDITY = JSBI.BigInt(1000)
 
 // exports for internal consumption
